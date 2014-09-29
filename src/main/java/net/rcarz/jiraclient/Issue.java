@@ -837,6 +837,31 @@ public class Issue extends Resource {
     }
 
     /**
+     * TODO Document
+     * @param restclient
+     * @param jql
+     * @param includedFields
+     * @return
+     * @throws JiraException
+     */
+    public static List<Issue> searchAll(RestClient restclient, String jql,
+            String includedFields)
+                    throws JiraException {
+    	final List<Issue> result = new ArrayList<Issue>();
+    	int currentStartAt = 0;
+    	int total;
+    	do {
+    		SearchResult searchResult = search(restclient, jql, 
+    				includedFields, null, currentStartAt);
+    		result.addAll(searchResult.issues);
+    		currentStartAt += searchResult.max;
+    		total = searchResult.total;
+    	} while (currentStartAt < total);
+    	
+    	return result;
+    }
+
+    /**
      * Search for issues with the given query and specify which fields to
      * retrieve. If the total results is bigger than the maximum returned
      * results, then further calls can be made using different values for

@@ -198,7 +198,20 @@ public class JiraClient {
 
         return Issue.search(restclient, jql, includedFields, null);
     }
-    
+  
+    /**
+     * TODO
+     * 
+     * @param jql
+     * @param includedFields
+     * @return
+     * @throws JiraException
+     */
+    public List<Issue> searchAllIssues(String jql, String includedFields)
+            throws JiraException {
+        return Issue.searchAll(restclient, jql, includedFields);
+    }
+
     /**
      * Search for issues with the given query and specify which fields to
      * retrieve.
